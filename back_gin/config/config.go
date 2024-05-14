@@ -10,11 +10,11 @@ import (
 var Db *sql.DB
 const(
 	DbDriver   = "mysql"
-	DbUserName = "my_blog"
-	DbPasswd   = "2xpBYrzNBnzGHdy3"
+	DbUserName = "myBlog"
+	DbPasswd   = "439956461"
 	DbHost     = "127.0.0.1"
 	DbPort     = 3306
-	DbName     = "my_blog"
+	DbName     = "myBlog"
 )
 func InitDb(){
 	var err error
