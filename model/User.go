@@ -14,7 +14,7 @@ type User struct{
 	Password string `gorm:"type:varchar(500);not null" json:"password" validate:"required,min=6,max=120" label:"密码"`
 	Role     int    `gorm:"type:int;DEFAULT:2" json:"role" validate:"required,gte=2" label:"角色码"`
 }
-// CheckUser 查询用户是否存在
+// 查询用户是否存在
 func CheckUser(name string) (code int) {
 	var user User
 	db.Select("id").Where("username = ?", name).First(&user)
@@ -23,7 +23,7 @@ func CheckUser(name string) (code int) {
 	}
 	return errmsg.SUCCESS
 }
-// CheckUpUser 更新查询
+// 更新查询
 func CheckUpUser(id int, name string) (code int) {
 	var user User
 	db.Select("id, username").Where("username = ?", name).First(&user)
@@ -35,7 +35,7 @@ func CheckUpUser(id int, name string) (code int) {
 	}
 	return errmsg.SUCCESS
 }
-// CreateUser 新增用户
+// 新增用户
 func CreateUser(data *User) int {
 	//data.Password = ScryptPw(data.Password)
 	err := db.Create(&data).Error
@@ -45,7 +45,7 @@ func CreateUser(data *User) int {
 	return errmsg.SUCCESS
 }
 
-// GetUser 查询用户
+// 查询用户
 func GetUser(id int) (User, int) {
 	var user User
 	err := db.Limit(1).Where("ID = ?", id).Find(&user).Error
@@ -55,7 +55,7 @@ func GetUser(id int) (User, int) {
 	return user, errmsg.SUCCESS
 }
 
-// GetUsers 查询用户列表
+// 查询用户列表
 func GetUsers(username string, pageSize int, pageNum int) ([]User, int64) {
 	var users []User
 	var total int64
@@ -78,7 +78,7 @@ func GetUsers(username string, pageSize int, pageNum int) ([]User, int64) {
 	return users, total
 }
 
-// EditUser 编辑用户信息
+// 编辑用户信息
 func EditUser(id int, data *User) int {
 	var user User
 	var maps = make(map[string]interface{})
@@ -91,7 +91,7 @@ func EditUser(id int, data *User) int {
 	return errmsg.SUCCESS
 }
 
-// ChangePassword 修改密码
+// 修改密码
 func ChangePassword(id int, data *User) int {
 	//var user User
 	//var maps = make(map[string]interface{})
@@ -99,22 +99,22 @@ func ChangePassword(id int, data *User) int {
 
 	err = db.Select("password").Where("id = ?", id).Updates(&data).Error
 	if err != nil {
-		return errmsg.ERROR
+		return errmsg.ERROR	// 500
 	}
-	return errmsg.SUCCESS
+	return errmsg.SUCCESS	// 200
 }
 
-// DeleteUser 删除用户
+// 删除用户
 func DeleteUser(id int) int {
 	var user User
 	err = db.Where("id = ? ", id).Delete(&user).Error
 	if err != nil {
-		return errmsg.ERROR
+		return errmsg.ERROR	// 500
 	}
 	return errmsg.SUCCESS
 }
 
-// BeforeCreate 密码加密&权限控制
+// 密码加密&权限控制
 func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 	u.Password = ScryptPw(u.Password)
 	u.Role = 2
@@ -126,7 +126,7 @@ func (u *User) BeforeUpdate(_ *gorm.DB) (err error) {
 	return nil
 }
 
-// ScryptPw 生成密码
+// 生成密码
 func ScryptPw(password string) string {
 	const cost = 10
 
@@ -138,7 +138,7 @@ func ScryptPw(password string) string {
 	return string(HashPw)
 }
 
-// CheckLogin 后台登录验证
+// 后台登录验证
 func CheckLogin(username string, password string) (User, int) {
 	var user User
 	var PasswordErr error
@@ -159,7 +159,7 @@ func CheckLogin(username string, password string) (User, int) {
 	return user, errmsg.SUCCESS
 }
 
-// CheckLoginFront 前台登录
+// 前台登录
 func CheckLoginFront(username string, password string) (User, int) {
 	var user User
 	var PasswordErr error
