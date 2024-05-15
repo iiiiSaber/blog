@@ -4,6 +4,11 @@ const (
 	SUCCESS = 200
 	ERROR   = 500
 
+	// code:
+	// 1000 用户错误
+	// 2000 文章错误
+	// 3000 分类错误
+
 	// 用户模块的错误
 	ERROR_USERNAME_USED    = 1001
 	ERROR_PASSWORD_WRONG   = 1002
