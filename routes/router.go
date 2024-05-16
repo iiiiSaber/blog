@@ -2,6 +2,7 @@ package routes
 
 import (
 	version1 "blog/interfaces/version1"
+	"blog/middleware"
 	"blog/utils"
 
 	"github.com/gin-gonic/gin"
@@ -11,23 +12,40 @@ func InitRounter(){
 	gin.SetMode(utils.AppMode)
 	r :=gin.Default()
 
-	router := r.Group("interfaces/version1")
+	// 后端管理路由接口
+	back := r.Group("interfaces/version1")
+	back.Use(middleware.JwtToken())
 	{
 		// 用户模块路由接口
-		router.POST("user/add",version1.AddUser)
-		router.GET("users",version1.GetUsers)
-		router.PUT("user/:id",version1.EditUser)
-		router.DELETE("user/:id",version1.DeleteUser)
+		back.PUT("user/:id",version1.EditUser)
+		back.DELETE("user/:id",version1.DeleteUser)
 
 		// 分类模块路由接口
-		router.POST("category/add",version1.AddCategory)
-		router.GET("category",version1.GetCate)
-		router.PUT("category/:id",version1.EditCate)
-		router.DELETE("category/:id",version1.DeleteCate)
+		back.POST("category/add",version1.AddCategory)
+		back.PUT("category/:id",version1.EditCate)
+		back.DELETE("category/:id",version1.DeleteCate)
 
 		// 文章模块路由接口
-
+		back.POST("acticle/add",version1.AddArticle)
+		back.PUT("artical/:id",version1.EditArt)
+		back.DELETE("article/:id",version1.DeleteArt)
 
 	}
-	r.Run(utils.HttpPort)
+
+	// 前端展示接口
+	front := r.Group("interfaces/version1")
+	{
+		front.POST("user/add",version1.AddUser)
+		front.GET("users",version1.GetUsers)
+
+		front.GET("category",version1.GetCate)
+
+		front.GET("article",version1.GetArt)
+		front.GET("article/list/:id",version1.GetCateArt)
+		front.GET("article/info/:id",version1.GetArtInfo)
+
+		front.POST("login",version1.Login)
+	}
+	
+	_ = r.Run(utils.HttpPort)
 }
