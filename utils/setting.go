@@ -9,6 +9,7 @@ import (
 var (
 	AppMode string
 	HttpPort string
+	JwtKey string
 
 	Db string
 	DbPort string
@@ -16,6 +17,11 @@ var (
 	DbUser string
 	DbPassWord string
 	DbName string
+
+	AccessKey string
+	SecretKey string
+	Bucket string
+	MinioServer string
 )
 
 func init() {
@@ -25,10 +31,12 @@ func init() {
 	}
 	LoadServer(file)
 	LoadData(file)
+	LoadMinio(file)
 }
 func LoadServer(file *ini.File){
 	AppMode=file.Section("server").Key("AppMode").MustString("debug")
 	HttpPort=file.Section("server").Key("HttpPort").MustString(":3131")
+	JwtKey=file.Section("server").Key("JwtKey").MustString("fey42weqrt43rrduee2322")
 }
 func LoadData(file *ini.File){
 	Db=file.Section("database").Key("Db").MustString("mysql")
@@ -37,4 +45,10 @@ func LoadData(file *ini.File){
 	DbUser=file.Section("database").Key("DbUser").MustString("my_blog")
 	DbPassWord=file.Section("database").Key("DbPassWord").MustString("2xpBYrzNBnzGHdy3")
 	DbName=file.Section("database").Key("DbName").MustString("my_blog")
+}
+func LoadMinio(file *ini.File){
+	AccessKey = file.Section("minio").Key("AccessKey").String()
+	SecretKey = file.Section("minio").Key("SecretKey").String()
+	Bucket = file.Section("minio").Key("Bucket").String()
+	MinioServer = file.Section("minio").Key("MinioServer").String()
 }
