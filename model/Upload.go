@@ -63,17 +63,24 @@ func GetContentType(filename string) string {
 	return GetTypeByPrefix(prefix)
 }
 
-// 文件hash计算方法
-func calculateHash(file multipart.File) (string) {
+// 文件hash计算方法 code from StackOverflow，fix by GPT-4
+func calculateHash(file multipart.File) string {
     h := md5.New()
+    // Reset file pointer to the start of the file
     if _, err := file.Seek(0, 0); err != nil {
-        log.Printf("Get file md5 error: %v", err)
+        log.Printf("Error seeking file: %v", err)
+        return ""
     }
     if _, err := io.Copy(h, file); err != nil {
         log.Printf("Get file md5 error: %v", err)
+        return ""
     }
     md5Str := hex.EncodeToString(h.Sum(nil))
     log.Printf("File md5 is: %s", md5Str)
+    // Reset file pointer to the start of the file again for further use
+    if _, err := file.Seek(0, 0); err != nil {
+        log.Printf("Error seeking file: %v", err)
+    }
     return md5Str
 }
 // 列出桶中所有对象
@@ -113,41 +120,29 @@ func UpLoadFile(file multipart.File, fileSize int64, fileName string) (string, i
     reqParams.Set("response-content-disposition", "inline")
     reqParams.Set("response-content-type", contentType)
     
-     // isEmpty,_:=isBucketEmpty(minioClient,Bucket)
-    // if isEmpty{
-    //     // 上传文件
-    //     fmt.Println("Empty,uploading")
-    //     _, err := minioClient.PutObject(context.Background(), Bucket, fileName, file, fileSize, minio.PutObjectOptions{ContentType: "application/octet-stream"})
-    //     if err != nil {
-    //         fmt.Println(err)
-    //     }
-    //     info, _ := minioClient.PutObject(context.Background(), Bucket, fileName, file, fileSize, minio.PutObjectOptions{ContentType: "application/octet-stream"})
-    //     log.Printf("Successfully uploaded %s with size %d and etag %s", fileName, info.Size, info.ETag)
-    //     return "new",0
-    // }else{
-        // 获取桶中对象
-        minioFiles,_:=listAllObjects(minioClient,Bucket)
-        // 计算选择文件的hash
-        localFileHash:= calculateHash(file)
+    // 获取桶中对象
+    minioFiles,_:=listAllObjects(minioClient,Bucket)
+    // 计算选择文件的hash
+    localFileHash:= calculateHash(file)
 
-        // 遍历桶中对象
-        for _, minioFile := range minioFiles {
-            // minioFileHash, err := getMinIOFileHash(minioClient, Bucket, object.)
-            // 比较hash是否一致，如一致则取消上传并直接返回链接
-            if localFileHash == minioFile.ETag {
-                fmt.Println("Found matching file:", minioFile.Key)
-                preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
-                if err!=nil{
-                    return "",0
-                }
-                return preUrl.String(),0
+    // 遍历桶中对象
+    for _, minioFile := range minioFiles {
+        // minioFileHash, err := getMinIOFileHash(minioClient, Bucket, object.)
+        // 比较hash是否一致，如一致则取消上传并直接返回链接
+        if localFileHash == minioFile.ETag {
+            fmt.Println("Found matching file:", minioFile.Key)
+            preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
+            if err!=nil{
+                return "",errmsg.ERROR
             }
-            // 比较名称是否一致，如果一致，上传会直接覆盖文件，所以为了避免这个情况，我对要上传的文件进行了重命名
-            if fileName ==  minioFile.Key{
-                fmt.Println("Match the same name file,rename")
-                fileName=strings.TrimSuffix(fileName,filepath.Ext(fileName)) + "_new" + filepath.Ext(fileName)
-            }
+            return preUrl.String(),errmsg.SUCCESS
         }
+        // 比较名称是否一致，如果一致，上传会直接覆盖文件，所以为了避免这个情况，我对要上传的文件进行了重命名
+        if fileName ==  minioFile.Key{
+            fmt.Println("Match the same name file,rename")
+            fileName=strings.TrimSuffix(fileName,filepath.Ext(fileName)) + "_new" + filepath.Ext(fileName)
+        }
+    }
 
         // 遍历结束，操作结束之后，可以上传文件了
         fmt.Println("No match hash,uploading")
@@ -157,7 +152,7 @@ func UpLoadFile(file multipart.File, fileSize int64, fileName string) (string, i
         // 获取到预览链接，避免返回的链接访问着是直接下载文件
         preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
         if err!=nil{
-            return "",0
+            return "",errmsg.ERROR
         }
-        return preUrl.String(),0
+        return preUrl.String(),errmsg.SUCCESS
 }
