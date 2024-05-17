@@ -10,7 +10,9 @@ import (
 
 func InitRounter(){
 	gin.SetMode(utils.AppMode)
-	r :=gin.Default()
+	r :=gin.New()
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
 
 	// 后端管理路由接口
 	back := r.Group("interfaces/version1")
