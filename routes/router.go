@@ -32,6 +32,9 @@ func InitRounter() {
 		back.PUT("artical/:id", version1.EditArt)
 		back.DELETE("article/:id", version1.DeleteArt)
 
+		// 上传文件路由接口
+		back.POST("upload",version1.UpLoad)
+
 	}
 
 	// 前端展示接口
