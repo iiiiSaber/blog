@@ -3,14 +3,14 @@ package version1
 import (
 	"blog/model"
 	"blog/utils/errmsg"
+	"log"
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
-	"blog/utils/validator"
-)
 
-var code int
+	"blog/utils/validator"
+	"github.com/gin-gonic/gin"
+)
 
 // 添加用户
 func AddUser(c *gin.Context){
@@ -19,6 +19,7 @@ func AddUser(c *gin.Context){
 	var validCode int
 	_ = c.ShouldBindJSON(&data)
 
+	log.Print(data)
 	msg, validCode = validator.Validate(&data)
 	if validCode != errmsg.SUCCESS {
 		c.JSON(

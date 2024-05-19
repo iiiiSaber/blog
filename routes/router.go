@@ -13,6 +13,7 @@ func InitRounter(){
 	r :=gin.New()
 	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	// 后端管理路由接口
 	back := r.Group("interfaces/version1")
