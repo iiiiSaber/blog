@@ -1,7 +1,7 @@
-time="2024-05-19T23:20:25+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=29 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/user/add SpendTime="178 ms" status=200
-time="2024-05-19T23:21:07+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=79 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/login SpendTime="113 ms" status=200
-time="2024-05-19T23:21:23+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=233 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/login SpendTime="150 ms" status=200
-time="2024-05-19T23:21:34+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=61 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/category/add SpendTime="19 ms" status=200
+time="2024-05-20T20:20:03+08:00" level=info Agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" DataSize=0 HostName=raspi-4b Ip=192.168.1.12 Method=OPTIONS Path=/interfaces/version1/login SpendTime="0 ms" status=204
+time="2024-05-20T20:20:03+08:00" level=info Agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" DataSize=80 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/login SpendTime="112 ms" status=200
+time="2024-05-20T20:20:11+08:00" level=info Agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" DataSize=233 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/login SpendTime="135 ms" status=200
+
 time="2024-05-19T23:22:11+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=322 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/acticle/add SpendTime="33 ms" status=200
 time="2024-05-19T23:22:57+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=322 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/acticle/add SpendTime="32 ms" status=200
 time="2024-05-19T23:23:50+08:00" level=info Agent="Apipost/8.0.0 (https://www.apipost.cn)" DataSize=320 HostName=raspi-4b Ip=192.168.1.12 Method=POST Path=/interfaces/version1/acticle/add SpendTime="21 ms" status=200
