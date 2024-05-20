@@ -3,13 +3,13 @@
         <div class="loginBox">
             <a-form-model ref="loginFormRef" :rules="rules" :model="formdata" class="loginForm">
                 <a-form-model-item prop="username">
-                    <a-input v-model="formdata.username" placeholder="请输入用户名">
+                    <a-input v-model="formdata.username" placeholder="请输入用户名" v-on:keyup.enter="loginAdmin">
                         <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                 </a-form-model-item>
 
                 <a-form-model-item prop="password">
-                    <a-input v-model="formdata.password" placeholder="请输入密码" type="password">
+                    <a-input v-model="formdata.password" placeholder="请输入密码" type="password" v-on:keyup.enter="loginAdmin">
                         <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                 </a-form-model-item>
@@ -82,7 +82,6 @@ export default{
 <style scoped>
 .container{
     height:100%;
-    background-color:#19171a;
     background-image: url('../assets/back_login_pic.png');
     /* 背景图不平铺 */
     background-repeat: no-repeat;
