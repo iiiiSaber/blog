@@ -3,6 +3,13 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Admin from '../views/Admin.vue'
 
+// 页面路由
+import Dashboard from '../components/admin/Dashboard.vue'
+import AddArticle from '../components/admin/article/AddArticle.vue'
+import ArticleList from '../components/admin/article/ArticleList.vue'
+import CategoryList from '../components/admin/category/CategoryList.vue'
+import UserList from '../components/admin/user/UserList.vue'
+
 Vue.use(VueRouter)
 const routes = [
   {
@@ -13,7 +20,13 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    children:[{path:'/dashboard',component:Dashboard},
+              {path:'/addarticle',component:AddArticle},
+              {path:'/articlelist',component:ArticleList},
+              {path:'/categorylist',component:CategoryList},
+              {path:'/userlist',component:UserList}
+    ]
   }
 ]
 
