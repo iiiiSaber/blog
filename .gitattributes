@@ -1,0 +1,6 @@
+*.js linguist-language=JavaScript
+*.css linguist-language=CSS
+*.html linguist-language=HTML
+*.go linguist-language=Go
+*.json linguist-language=Json
+.vue linguist-language=Vue

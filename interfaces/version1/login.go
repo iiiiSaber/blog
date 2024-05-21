@@ -58,7 +58,7 @@ func setToken(c *gin.Context, user model.User) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)),
-			Issuer:    "GinBlog",
+			Issuer:    "Blog",
 		},
 	}
 

@@ -12,7 +12,11 @@ func InitRounter() {
 	//In Gin, modes typically control the level of logging among other
 	//behaviors, with common modes being "debug", "release", and "test".
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
+
+	r := gin.New()
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	// 后端管理路由接口
 	back := r.Group("interfaces/version1")
@@ -33,7 +37,7 @@ func InitRounter() {
 		back.DELETE("article/:id", version1.DeleteArt)
 
 		// 上传文件路由接口
-		back.POST("upload",version1.UpLoad)
+		back.POST("upload", version1.UpLoad)
 
 	}
 

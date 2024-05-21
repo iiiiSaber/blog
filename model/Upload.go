@@ -68,18 +68,18 @@ func calculateHash(file multipart.File) string {
     h := md5.New()
     // Reset file pointer to the start of the file
     if _, err := file.Seek(0, 0); err != nil {
-        log.Printf("Error seeking file: %v", err)
+        log.Fatal("查找文件出错: %v", err)
         return ""
     }
     if _, err := io.Copy(h, file); err != nil {
-        log.Printf("Get file md5 error: %v", err)
+        log.Fatal("获取文件hash出错: %v", err)
         return ""
     }
     md5Str := hex.EncodeToString(h.Sum(nil))
-    log.Printf("File md5 is: %s", md5Str)
+    log.Println("文件的hash值为: %s", md5Str)
     // Reset file pointer to the start of the file again for further use
     if _, err := file.Seek(0, 0); err != nil {
-        log.Printf("Error seeking file: %v", err)
+        log.Fatal("查找文件出错: %v", err)
     }
     return md5Str
 }
@@ -130,7 +130,7 @@ func UpLoadFile(file multipart.File, fileSize int64, fileName string) (string, i
         // minioFileHash, err := getMinIOFileHash(minioClient, Bucket, object.)
         // 比较hash是否一致，如一致则取消上传并直接返回链接
         if localFileHash == minioFile.ETag {
-            fmt.Println("Found matching file:", minioFile.Key)
+            log.Println("发现hash一致的文件:", minioFile.Key)
             preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
             if err!=nil{
                 return "",errmsg.ERROR
@@ -139,16 +139,16 @@ func UpLoadFile(file multipart.File, fileSize int64, fileName string) (string, i
         }
         // 比较名称是否一致，如果一致，上传会直接覆盖文件，所以为了避免这个情况，我对要上传的文件进行了重命名
         if fileName ==  minioFile.Key{
-            fmt.Println("Match the same name file,rename")
+            log.Println("发现命名一致的文件，正在重命名")
             fileName=strings.TrimSuffix(fileName,filepath.Ext(fileName)) + "_new" + filepath.Ext(fileName)
         }
     }
 
         // 遍历结束，操作结束之后，可以上传文件了
-        fmt.Println("No match hash,uploading")
-        // 此处上传有严重bug，上传fileSize为0，且文件不能真正上minio里面去
+        fmt.Println("没有找到hash一致的文件，上传中")
+        // 上传文件
         info, _ := minioClient.PutObject(context.Background(), Bucket, fileName, file,fileSize, minio.PutObjectOptions{ContentType: "application/octet-stream"})
-        log.Printf("Successfully uploaded %s with size %d and etag %s", fileName, info.Size, info.ETag)
+        log.Printf("上传成功 文件名 %s 文件大小 %d hash值为 %s ", fileName, info.Size, info.ETag)
         // 获取到预览链接，避免返回的链接访问着是直接下载文件
         preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
         if err!=nil{
