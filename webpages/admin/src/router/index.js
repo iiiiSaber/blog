@@ -21,11 +21,11 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin,
-    children:[{path:'/dashboard',component:Dashboard},
-              {path:'/addarticle',component:AddArticle},
-              {path:'/articlelist',component:ArticleList},
-              {path:'/categorylist',component:CategoryList},
-              {path:'/userlist',component:UserList}
+    children:[{path:'dashboard',component:Dashboard},
+              {path:'addarticle',component:AddArticle},
+              {path:'articlelist',component:ArticleList},
+              {path:'categorylist',component:CategoryList},
+              {path:'userlist',component:UserList}
     ]
   }
 ]

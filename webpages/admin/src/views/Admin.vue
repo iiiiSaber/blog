@@ -5,7 +5,7 @@
 
         <a-layout>
 
-            <a-layout-header class="headerBtnExit">
+            <a-layout-header class="header">
                 <Header></Header>
             </a-layout-header>
 
@@ -36,11 +36,9 @@ export default{
 .container{
     height:100%;
 }
-.headerBtnExit{
-    background-color: rgba(255,255,255,0.3);
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
+.header{
+    background-color: rgba(227,227,231,0.3);
+   
 }
 
 </style>

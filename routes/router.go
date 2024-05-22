@@ -22,6 +22,8 @@ func InitRounter(){
 		// 用户模块路由接口
 		back.PUT("user/:id",version1.EditUser)
 		back.DELETE("user/:id",version1.DeleteUser)
+		// 修改密码
+		back.PUT("changePassword/:id",version1.ChangeUserPassword)
 
 		// 分类模块路由接口
 		back.POST("category/add",version1.AddCategory)
@@ -43,6 +45,7 @@ func InitRounter(){
 	{
 		front.POST("user/add",version1.AddUser)
 		front.GET("users",version1.GetUsers)
+		front.GET("user/:id",version1.GetUserInfo)
 
 		front.GET("category",version1.GetCate)
 
