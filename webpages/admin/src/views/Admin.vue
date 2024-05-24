@@ -10,7 +10,7 @@
             </a-layout-header>
 
             <a-layout-content style="background-color: rgba(255,255,255,0.3);">
-                <router-view>
+                <router-view :key="$route.path">
 
                 </router-view>
             </a-layout-content>

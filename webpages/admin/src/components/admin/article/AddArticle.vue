@@ -41,8 +41,8 @@
             </a-col>
           </a-row>
           <a-form-model-item label="文章内容" prop="content">
-            <!-- <Editor v-model="artInfo.content"></Editor> -->
-            <a-input v-model="artInfo.content"></a-input>
+            <Editor v-model="artInfo.content"></Editor>
+            <!-- <a-input v-model="artInfo.content"></a-input> -->
           </a-form-model-item>
   
           <a-form-model-item>
@@ -60,7 +60,9 @@
   
   <script>
   import { Url } from '@/plugin/http'
+  import Editor from '../editor/index.vue'
   export default {
+    components:{ Editor },
     props: ['id'],
     data() {
       return{
@@ -138,7 +140,7 @@
       this.$refs.artInfoRef.validate(async (valid) => {
         if (!valid) return this.$message.error('参数验证未通过，请按要求录入文章内容')
         if (id === 0) {
-          console.log(this.$http.post('article/add', this.artInfo))
+          //console.log(this.$http.post('article/add', this.artInfo))
           const { data: res } = await this.$http.post('article/add', this.artInfo)
           if (res.status !== 200) return this.$message.error(res.message)
           this.$router.push('/admin/articlelist')
