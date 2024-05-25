@@ -131,7 +131,8 @@ func UpLoadFile(file multipart.File, fileSize int64, fileName string) (string, i
         // 比较hash是否一致，如一致则取消上传并直接返回链接
         if localFileHash == minioFile.ETag {
             log.Println("发现hash一致的文件:", minioFile.Key)
-            preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,fileName,expiryTime,reqParams)
+            preUrl,err:=minioClient.PresignedGetObject(context.Background(),Bucket,minioFile.Key,expiryTime,reqParams)
+            //log.Printf(preUrl.String())
             if err!=nil{
                 return "",errmsg.ERROR
             }
