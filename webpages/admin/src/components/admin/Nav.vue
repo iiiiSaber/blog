@@ -40,7 +40,7 @@ export default {
     methods:{
         goToPage(item){
             console.log(item.key)
-            this.$router.push(item.key).catch(err=>err)
+            this.$router.push('/admin/'+item.key).catch(err=>err)
         }
     }
 }
@@ -57,5 +57,4 @@ export default {
     align-items: center;
     font-size: 16px;
 }
-
 </style>

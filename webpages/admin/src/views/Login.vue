@@ -72,7 +72,7 @@ export default{
                     return this.$message.error(res.message)
                 }
                 window.sessionStorage.setItem('token',res.token)
-                this.$router.push('admin')
+                this.$router.push('admin/Dashboard')
             })
         }
     }
